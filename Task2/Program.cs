@@ -5,7 +5,26 @@
         Console.WriteLine("Enter path to canculate size: ");
         string path = Console.ReadLine();
 
-        Console.WriteLine(CalcFolderSize(Directory.CreateDirectory(path)));
+        PrintFolderSize(path);
+    }
+
+    public static void PrintFolderSize(string path)
+    {
+        if (!Directory.Exists(path))
+        {
+            Console.WriteLine($"Path {path} doent exit.");
+            return;
+        }
+        DirectoryInfo dir = new DirectoryInfo(path);
+        try
+        {
+            Console.WriteLine($"\nFolder size: {CalcFolderSize(dir)} bytes");
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"error: {ex.Message}");
+        }
     }
 
     public static long CalcFolderSize(DirectoryInfo dir)
