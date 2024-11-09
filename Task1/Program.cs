@@ -26,29 +26,35 @@
 
             foreach (DirectoryInfo folder in folders)
             {
-                try
+                if ((DateTime.Now - folder.LastAccessTime) > TimeSpan.FromMinutes(30))
                 {
-                    folder.Delete(true);
-                    Console.WriteLine($"folder ({folder.Name}) deleted sucsessfully.");
+                    try
+                    {
+                        folder.Delete(true);
+                        Console.WriteLine($"folder ({folder.Name}) deleted sucsessfully.");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Folder {folder.Name} isn't deleted, error {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Folder {folder.Name} isn't deleted, error {ex.Message}");
-                }
-                
             }
+
             foreach (FileInfo file in files)
             {
-                try
+                if ((DateTime.Now - file.LastAccessTime) > TimeSpan.FromMinutes(30))
                 {
-                    file.Delete();
-                    Console.WriteLine($"file ({file.Name}) deleted sucsessfully.");
+                    try
+                    {
+                        file.Delete();
+                        Console.WriteLine($"file ({file.Name}) deleted sucsessfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"File {file.Name} isn't deleted, error {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"File {file.Name} isn't deleted, error {ex.Message}");
-                }
-                
             }
         }
         catch (Exception ex)
