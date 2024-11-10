@@ -75,5 +75,15 @@
         {
             Directory.CreateDirectory(folderDir);
         }
+
+        Dictionary<string, List<Student>> studentGroup = new Dictionary<string, List<Student>>();
+        foreach (Student student in students)
+        {
+            if (!studentGroup.ContainsKey(student.Group))
+            {
+                studentGroup[student.Group] = new List<Student>();
+            }
+            studentGroup[student.Group].Add(student);
+        }
     }
 }
