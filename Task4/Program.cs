@@ -98,7 +98,7 @@
             {
                 foreach (var student in group.Value)
                 {
-                    sw.WriteLine($"{student.Name}, {student.DateOfBirth}, {student.AverageScore}");
+                    sw.WriteLine($"Student name: {student.Name}. Date of birth: {student.DateOfBirth:dd.MM.yyyy}. Av.scrore: {student.AverageScore}points"); //some beauty
                 }
             }
         }
