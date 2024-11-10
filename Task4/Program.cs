@@ -12,12 +12,15 @@
 
         WriteStudentsToBinFile(studentsToWrite, "students.dat");
 
-        List<Student> studentsToRead = ReadStudentsFromBinFile("students.dat");
 
-        foreach (Student studentProp in studentsToRead)
-        {
-            Console.WriteLine(studentProp.Name + " " + studentProp.Group + " " + studentProp.DateOfBirth + " " + studentProp.AverageScore);
-        }
+        List<Student> studentsToRead = ReadStudentsFromBinFile("students.dat");
+        //foreach (Student studentProp in studentsToRead)
+        //{
+        //    Console.WriteLine(studentProp.Name + " " + studentProp.Group + " " + studentProp.DateOfBirth + " " + studentProp.AverageScore);
+        //}
+
+        SaveStudentsToTextFiles(studentsToRead);
+        Console.WriteLine($"The data saved to text files in folder Students on desktop.");
     }
 
     static void WriteStudentsToBinFile(List<Student> students, string fileName)
@@ -40,25 +43,27 @@
 
     static List<Student> ReadStudentsFromBinFile(string fileName)
     {
-        List<Student> result = new();
+        List<Student> result = new List<Student>();
         using FileStream fs = new FileStream(fileName, FileMode.Open);
-        using StreamReader sr = new StreamReader(fs);
+        // чтение с бинарного файла
+        //using StreamReader sr = new StreamReader(fs);
+        using BinaryReader br = new BinaryReader(fs);
 
-        Console.WriteLine(sr.ReadToEnd());
+        //Console.WriteLine(sr.ReadToEnd());// не нужна
 
-        fs.Position = 0;
+        //fs.Position = 0;///тож не надо
 
-        BinaryReader br = new BinaryReader(fs);
+        //BinaryReader br = new BinaryReader(fs);/// сразу сделали
 
         while (fs.Position < fs.Length)
         {
-            Student student = new Student();
-            student.Name = br.ReadString();
-            student.Group = br.ReadString();
-            long dt = br.ReadInt64();
-            student.DateOfBirth = DateTime.FromBinary(dt);
-            student.AverageScore = br.ReadDecimal();
-
+            Student student = new Student // так немного симпотичнее ;)
+            {
+                Name = br.ReadString(),
+                Group = br.ReadString(),
+                DateOfBirth = DateTime.FromBinary(br.ReadInt64()),
+                AverageScore = br.ReadDecimal()
+            };
             result.Add(student);
         }
 
