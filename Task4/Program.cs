@@ -66,5 +66,14 @@
         return result;
     }
 
-    
+    static void SaveStudentsToTextFiles(List<Student> students)
+    {
+        string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string folderDir = Path.Combine(folderPath, "Students");
+
+        if (!Directory.Exists(folderDir))
+        {
+            Directory.CreateDirectory(folderDir);
+        }
+    }
 }
