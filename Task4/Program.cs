@@ -76,14 +76,26 @@
             Directory.CreateDirectory(folderDir);
         }
 
-        Dictionary<string, List<Student>> studentGroup = new Dictionary<string, List<Student>>();
-        foreach (Student student in students)
+        Dictionary<string, List<Student>> studentsGroups = new Dictionary<string, List<Student>>();
+        foreach (var student in students)
         {
-            if (!studentGroup.ContainsKey(student.Group))
+            if (!studentsGroups.ContainsKey(student.Group))
             {
-                studentGroup[student.Group] = new List<Student>();
+                studentsGroups[student.Group] = new List<Student>();
             }
-            studentGroup[student.Group].Add(student);
+            studentsGroups[student.Group].Add(student);
+        }
+
+        foreach (var group in studentsGroups)
+        {
+            string textFileGroup = Path.Combine(folderDir, $"{group.Key}.txt");
+            using (StreamWriter sw = new StreamWriter(textFileGroup))
+            {
+                foreach (var student in group.Value)
+                {
+                    sw.WriteLine($"{student.Name}, {student.DateOfBirth}, {student.AverageScore}");
+                }
+            }
         }
     }
 }
